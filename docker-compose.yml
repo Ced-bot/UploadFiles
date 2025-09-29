@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  upload-server:
+    build: .
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./server/uploads:/app/uploads        # si lo necesitas
+      - /root/deploy/TESTE:/TESTE           # <- monta la carpeta host en /TESTE del contenedor
+    restart: unless-stopped
