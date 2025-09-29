@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const helmet = require('helmet');
 
-const UPLOAD_DIR = process.env.UPLOAD_DIR || '/TESTE'; // <- configurable
+const UPLOAD_DIR = process.env.UPLOAD_DIR || '/files'; // <- configurable
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
 const app = express();
