@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   upload-mariadb:
-    image: mariadb:10.5
+    image: mariadb:11    # ← usar 11.x en vez de 10.5
     container_name: upload_mariadb_db
     restart: unless-stopped
     environment:
@@ -14,9 +14,8 @@ services:
       - maria-data-upload:/var/lib/mysql
     networks:
       - bridge_upload
-    # opcional: expón puerto sólo si necesitas acceder desde host
     ports:
-      - "2700:3306"   # <-- acceso desde host en puerto 2700
+      - "2700:3306"
 
   upload-server:
     build: .
