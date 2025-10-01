@@ -16,7 +16,7 @@ services:
       - bridge_upload
     # opcional: expón puerto sólo si necesitas acceder desde host
     ports:
-      - "${DB_PORT}:3306"   # <-- acceso desde host en puerto 2700
+      - "2700:3306"   # <-- acceso desde host en puerto 2700
 
   upload-server:
     build: .
