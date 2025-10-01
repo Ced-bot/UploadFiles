@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  mariadb:
+  upload-mariadb:
     image: mariadb:10.5
-    container_name: mariadb_db
+    container_name: upload_mariadb_db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
