@@ -1,12 +1,45 @@
-version: '3.8'
+version: "3.8"
+
 services:
+  mariadb:
+    image: mariadb:10.5
+    container_name: mariadb_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - maria-data-upload:/var/lib/mysql
+    networks:
+      - bridge_upload
+    # opcional: expón puerto sólo si necesitas acceder desde host
+    ports:
+      - "${DB_PORT}:3306"   # <-- acceso desde host en puerto 2700
+
   upload-server:
     build: .
-    ports:
-      - "${PORT}:${PORT}"
+    container_name: upload_server
+    restart: unless-stopped
     env_file:
       - .env
+    ports:
+      - "${PORT}:${PORT}"
     volumes:
-      - ./server/uploads:/app/uploads        # si lo necesitas
-      - /root/sabesp/files:/files           # <- monta la carpeta host en /TESTE del contenedor
-    restart: unless-stopped
+      - ./server/uploads:/app/uploads
+      - /root/sabesp/files:/files
+    networks:
+      bridge_upload:
+        ipv4_address: 172.25.0.10   # opcional; quita si no quieres IP fija
+
+volumes:
+  maria-data-upload:
+    driver: local
+
+networks:
+  bridge_upload:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/24
